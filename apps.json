@@ -1,0 +1,26 @@
+{
+  "name": "Custom Community Repo",
+  "identifier": "com.custom.community.repo",
+  "apps": [
+    {
+      "name": "Apollo Reborn",
+      "bundleIdentifier": "com.christianselig.Apollo",
+      "version": "1.15.11",
+      "versionDate": "2026-09-17",
+      "size": 50000000,
+      "downloadURL": "https://github.com/Apollo-Reborn/Apollo-Reborn/releases",
+      "iconURL": "https://raw.githubusercontent.com/Apollo-Reborn/Apollo-Reborn/main/img/settings.jpg",
+      "localizedDescription": "Ứng dụng Reddit Apollo tùy biến khôi phục tính năng hoạt động với API cá nhân."
+    },
+    {
+      "name": "Unbound Discord",
+      "bundleIdentifier": "com.hammerandchisel.discord",
+      "version": "1.0.0",
+      "versionDate": "2026-09-17",
+      "size": 100000000,
+      "downloadURL": "https://github.com/unbound-app/loader-ios/releases",
+      "iconURL": "https://cdn.discordapp.com/icons/logos/discord-logo.png",
+      "localizedDescription": "Client Discord tích hợp sẵn loader Unbound trên iOS."
+    }
+  ]
+}
