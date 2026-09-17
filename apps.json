@@ -12,16 +12,16 @@
       "iconURL": "https://raw.githubusercontent.com/Apollo-Reborn/Apollo-Reborn/main/img/settings.jpg",
       "localizedDescription": "Ứng dụng Reddit Apollo tùy biến khôi phục tính năng hoạt động với API cá nhân."
     },
-     {
-  "name": "Instagram Mod",
-  "bundleIdentifier": "com.burbn.instagram",
-  "version": "1.0.0",
-  "versionDate": "2026-09-17",
-  "size": 150000000,
-  "downloadURL": "https://github.com/arichornlover/TrollStore-DEBs/releases",
-  "iconURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/512px-Instagram_icon.png",
-  "localizedDescription": "Bản Instagram mod tích hợp tweak tải story/reels và chặn quảng cáo."
-}
+    {
+      "name": "Instagram Mod",
+      "bundleIdentifier": "com.burbn.instagram",
+      "version": "1.0.0",
+      "versionDate": "2026-09-17",
+      "size": 150000000,
+      "downloadURL": "https://github.com/arichornlover/TrollStore-DEBs/releases",
+      "iconURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/512px-Instagram_icon.png",
+      "localizedDescription": "Bản Instagram mod tích hợp tweak tải story/reels và chặn quảng cáo."
+    },
     {
       "name": "Unbound Discord",
       "bundleIdentifier": "com.hammerandchisel.discord",
