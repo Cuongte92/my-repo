@@ -11,8 +11,13 @@ TARGET_APPS = [
     {
         "target_repo": "unbound-app/loader-ios",
         "bundle_id": "com.hammerandchisel.discord"
+    },
+    {
+        "target_repo": "arichornlover/TrollStore-DEBs",
+        "bundle_id": "com.burbn.instagram"
     }
 ]
+
 
 JSON_FILE = "apps.json"
 
