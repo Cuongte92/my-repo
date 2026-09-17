@@ -5,30 +5,20 @@
     {
       "name": "Apollo Reborn",
       "bundleIdentifier": "com.christianselig.Apollo",
-      "version": "1.15.11_3.7.1",
-      "versionDate": "2026-09-13",
-      "size": 114471562,
-      "downloadURL": "https://github.com/Apollo-Reborn/Apollo-Reborn/releases/download/v1.15.11_3.7.1/Apollo-Reborn-3.7.1-GLASS-NOEXTENSIONS.ipa",
+      "version": "1.15.11",
+      "versionDate": "2026-09-17",
+      "size": 50000000,
+      "downloadURL": "https://github.com/Apollo-Reborn/Apollo-Reborn/releases",
       "iconURL": "https://raw.githubusercontent.com/Apollo-Reborn/Apollo-Reborn/main/img/settings.jpg",
       "localizedDescription": "Ứng dụng Reddit Apollo tùy biến khôi phục tính năng hoạt động với API cá nhân."
     },
     {
-      "name": "Instagram Mod",
-      "bundleIdentifier": "com.burbn.instagram",
-      "version": "1.0.0",
-      "versionDate": "2026-09-17",
-      "size": 150000000,
-      "downloadURL": "https://github.com/arichornlover/TrollStore-DEBs/releases",
-      "iconURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/512px-Instagram_icon.png",
-      "localizedDescription": "Bản Instagram mod tích hợp tweak tải story/reels và chặn quảng cáo."
-    },
-    {
       "name": "Unbound Discord",
       "bundleIdentifier": "com.hammerandchisel.discord",
-      "version": "345.0",
-      "versionDate": "2026-09-14",
-      "size": 107696786,
-      "downloadURL": "https://github.com/unbound-app/loader-ios/releases/download/v345.0/Unbound.ipa",
+      "version": "1.0.0",
+      "versionDate": "2026-09-17",
+      "size": 100000000,
+      "downloadURL": "https://github.com/unbound-app/loader-ios/releases",
       "iconURL": "https://cdn.discordapp.com/icons/logos/discord-logo.png",
       "localizedDescription": "Client Discord tích hợp sẵn loader Unbound trên iOS."
     }
