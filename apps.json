@@ -5,10 +5,10 @@
     {
       "name": "Apollo Reborn",
       "bundleIdentifier": "com.christianselig.Apollo",
-      "version": "1.15.11_3.8.0",
-      "versionDate": "2026-09-25",
-      "size": 114893279,
-      "downloadURL": "https://github.com/Apollo-Reborn/Apollo-Reborn/releases/download/v1.15.11_3.8.0/Apollo-Reborn-3.8.0-GLASS-NOEXTENSIONS.ipa",
+      "version": "1.15.11_3.8.5",
+      "versionDate": "2026-09-29",
+      "size": 117820512,
+      "downloadURL": "https://github.com/Apollo-Reborn/Apollo-Reborn/releases/download/v1.15.11_3.8.5/Apollo-Reborn-3.8.5-GLASS-NOEXTENSIONS.ipa",
       "iconURL": "https://raw.githubusercontent.com/Apollo-Reborn/Apollo-Reborn/main/img/settings.jpg",
       "localizedDescription": "Ứng dụng Reddit Apollo tùy biến khôi phục tính năng hoạt động với API cá nhân."
     },
