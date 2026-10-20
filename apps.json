@@ -15,10 +15,10 @@
     {
       "name": "Unbound Discord",
       "bundleIdentifier": "com.hammerandchisel.discord",
-      "version": "349.0",
-      "versionDate": "2026-10-14",
-      "size": 99639184,
-      "downloadURL": "https://github.com/unbound-app/loader-ios/releases/download/v349.0/Unbound.ipa",
+      "version": "350.0",
+      "versionDate": "2026-10-19",
+      "size": 99565439,
+      "downloadURL": "https://github.com/unbound-app/loader-ios/releases/download/v350.0/Unbound.ipa",
       "iconURL": "https://cdn.discordapp.com/icons/logos/discord-logo.png",
       "localizedDescription": "Client Discord tích hợp sẵn loader Unbound trên iOS."
     }
