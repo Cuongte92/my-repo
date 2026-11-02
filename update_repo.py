@@ -11,6 +11,10 @@ TARGET_APPS = [
     {
         "target_repo": "unbound-app/loader-ios",
         "bundle_id": "com.hammerandchisel.discord"
+    },
+    {
+        "target_repo": "mxhm11cr/LinuxRunner",
+        "bundle_id": "dev.linuxrunner.app.U4VR236UMH"
     }
 ]
 
