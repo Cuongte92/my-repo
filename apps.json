@@ -3,6 +3,16 @@
   "identifier": "com.custom.community.repo",
   "apps": [
     {
+      "name": "LinuxRunner",
+      "bundleIdentifier": "dev.linuxrunner.app.U4VR236UMH",
+      "version": "1.0.0",
+      "versionDate": "2026-11-02",
+      "size": 150000000,
+      "downloadURL": "https://github.com/mxhm11cr/LinuxRunner/releases/download/v1.0.0/LinuxRunner.ipa",
+      "iconURL": "https://raw.githubusercontent.com/mxhm11cr/LinuxRunner/main/assets/icon.png",
+      "localizedDescription": "Môi trường Linux ARM64 (Debian 13 / Alpine / Arch) chính thức, hỗ trợ kích hoạt JIT qua StikDebug trên iOS."
+    },
+    {
       "name": "Apollo Reborn",
       "bundleIdentifier": "com.christianselig.Apollo",
       "version": "1.15.11_4.0.1",
