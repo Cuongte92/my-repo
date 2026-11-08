@@ -25,6 +25,7 @@ TARGET_APPS = [
 JSON_FILE = "apps.json"
 
 def fetch_latest_release(repo):
+    # Thử lấy latest release chính thức
     url = f"https://api.github.com/repos/{repo}/releases/latest"
     headers = {'User-Agent': 'ESign-Update-Bot'}
     token = os.getenv("GITHUB_TOKEN")
@@ -32,8 +33,19 @@ def fetch_latest_release(repo):
         headers['Authorization'] = f'Bearer {token}'
 
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req) as response:
-        return json.loads(response.read().decode())
+    try:
+        with urllib.request.urlopen(req) as response:
+            return json.loads(response.read().decode())
+    except urllib.error.HTTPError as e:
+        # Nếu bị 404 (do chỉ có Pre-release hoặc Tag), thử lấy danh sách releases
+        if e.code == 404:
+            fallback_url = f"https://api.github.com/repos/{repo}/releases"
+            req_fallback = urllib.request.Request(fallback_url, headers=headers)
+            with urllib.request.urlopen(req_fallback) as response:
+                releases = json.loads(response.read().decode())
+                if releases:
+                    return releases[0]
+        raise e
 
 def main():
     if not os.path.exists(JSON_FILE):
@@ -53,7 +65,7 @@ def main():
         try:
             release = fetch_latest_release(repo_name)
         except Exception as e:
-            print(f"Bỏ qua {repo_name} do không lấy được release: {e}")
+            print(f"Bỏ qua {repo_name} do lỗi lấy release: {e}")
             continue
 
         version = release.get("tag_name", "").lstrip("v")
@@ -61,14 +73,21 @@ def main():
 
         ipa_url = ""
         size = 0
-        for asset in release.get("assets", []):
-            if asset.get("name", "").endswith(".ipa"):
+        assets = release.get("assets", [])
+        
+        # In tên các asset để tiện theo dõi nếu không thấy IPA
+        asset_names = [a.get("name", "") for a in assets]
+        print(f"Các file đính kèm tìm thấy: {asset_names}")
+
+        for asset in assets:
+            name = asset.get("name", "").lower()
+            if name.endswith(".ipa") or name.endswith(".tipa"):
                 ipa_url = asset.get("browser_download_url")
                 size = asset.get("size", 0)
                 break
 
         if not ipa_url:
-            print(f"Cảnh báo: Bản release mới nhất của {repo_name} không có file .ipa. Bỏ qua.")
+            print(f"Cảnh báo: Bản release của {repo_name} không có file .ipa/.tipa. Bỏ qua.")
             continue
 
         for app in repo_data.get("apps", []):
