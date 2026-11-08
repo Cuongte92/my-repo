@@ -13,15 +13,15 @@
       "localizedDescription": "Môi trường Linux ARM64 (Debian 13 / Alpine / Arch) chính thức, hỗ trợ kích hoạt JIT qua StikDebug trên iOS."
     },
     {
-    "name": "BuildBox",
-    "bundleIdentifier": "com.mikevillarroel.buildbox",
-    "version": "2.1.7",
-    "versionDate": "2026-11-07",
-    "size": 16672358,
-    "downloadURL": "https://github.com",
-    "iconURL": "https://githubusercontent.com",
-    "localizedDescription": "Biên dịch mã nguồn Swift thành IPA, ký và cài đặt ứng dụng ngay trên iPhone không cần máy tính."
-},
+      "name": "BuildBox",
+      "bundleIdentifier": "com.mikevillarroel.buildbox",
+      "version": "2.1.7",
+      "versionDate": "2026-11-07",
+      "size": 16672358,
+      "downloadURL": "https://github.com",
+      "iconURL": "https://githubusercontent.com",
+      "localizedDescription": "Biên dịch mã nguồn Swift thành IPA, ký và cài đặt ứng dụng ngay trên iPhone không cần máy tính."
+    },
     {
       "name": "Apollo Reborn",
       "bundleIdentifier": "com.christianselig.Apollo",
