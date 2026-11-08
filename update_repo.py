@@ -9,6 +9,10 @@ TARGET_APPS = [
         "bundle_id": "com.christianselig.Apollo"
     },
     {
+        "target_repo": "mikevillarroel/buildbox-ios",
+        "bundle_id": "com.mikevillarroel.buildbox"
+    },
+    {
         "target_repo": "unbound-app/loader-ios",
         "bundle_id": "com.hammerandchisel.discord"
     },
