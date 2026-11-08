@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout mã nguồn
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Tải toàn bộ lịch sử commit để tránh lỗi khi gộp/pull code
 
       - name: Cài đặt Python
         uses: actions/setup-python@v5
@@ -30,4 +32,16 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add apps.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto: Cập nhật link IPA mới" && git push)
+          
+          # Nếu không có thay đổi gì thì dừng bước này luôn
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "Không có thay đổi nào trong apps.json"
+            exit 0
+          fi
+          
+          git commit -m "Auto: Cập nhật link IPA mới"
+          
+          # Pull đồng bộ dữ liệu mới nhất từ server trước khi đẩy lên để tránh lỗi [rejected]
+          git pull origin main --rebase
+          
+          git push origin main
