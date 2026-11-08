@@ -5,6 +5,11 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
+# Khóa luồng để các lần chạy (cron hoặc bấm tay) không chạy đè lên nhau gây xung đột push
+concurrency:
+  group: update-apps-repo
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -15,7 +20,7 @@ jobs:
       - name: Checkout mã nguồn
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Tải toàn bộ lịch sử commit để tránh lỗi khi gộp/pull code
+          fetch-depth: 0 # Kéo toàn bộ git history để rebase mượt mà không lỗi shallow
 
       - name: Cài đặt Python
         uses: actions/setup-python@v5
@@ -31,17 +36,18 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
           git add apps.json
           
-          # Nếu không có thay đổi gì thì dừng bước này luôn
-          if git diff --quiet && git diff --staged --quiet; then
-            echo "Không có thay đổi nào trong apps.json"
+          # Kiểm tra nếu staging không có thay đổi nào thì thoát êm đẹp (tránh commit rỗng)
+          if git diff --staged --quiet; then
+            echo "apps.json không có thay đổi mới."
             exit 0
           fi
           
           git commit -m "Auto: Cập nhật link IPA mới"
           
-          # Pull đồng bộ dữ liệu mới nhất từ server trước khi đẩy lên để tránh lỗi [rejected]
-          git pull origin main --rebase
+          # Kéo commit mới nhất trên remote về và đặt commit này lên đầu
+          git pull --rebase origin main
           
           git push origin main
