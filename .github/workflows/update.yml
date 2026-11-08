@@ -5,7 +5,6 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
-# Khóa luồng chạy song song để tránh xung đột push
 concurrency:
   group: update-apps-repo
   cancel-in-progress: false
@@ -27,15 +26,10 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Đồng bộ code và cập nhật apps.json
+      - name: Quét và cập nhật apps.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Đồng bộ code mới nhất từ remote trước khi chạy script
-          git pull origin main --rebase
-          
-          # Quét và ghi thay đổi vào apps.json
-          python update_repo.py
+        run: python update_repo.py
 
       - name: Commit và Push nếu có phiên bản mới
         run: |
@@ -44,13 +38,16 @@ jobs:
 
           git add apps.json
 
-          # Kiểm tra nếu apps.json không thay đổi thì dừng êm đẹp
+          # Nếu apps.json không thay đổi thì dừng, không làm gì tiếp
           if git diff --staged --quiet; then
             echo "apps.json không có thay đổi nào mới."
             exit 0
           fi
 
           git commit -m "Auto: Cập nhật link IPA mới"
-          
+
+          # Kéo commit mới nhất trên remote về và đặt commit này lên đầu
+          git pull --rebase origin main
+
           # Đẩy lên remote
           git push origin main
