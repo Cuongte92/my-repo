@@ -2,6 +2,7 @@ import urllib.request
 import json
 import os
 import sys
+import re
 
 TARGET_APPS = [
     {
@@ -13,7 +14,7 @@ TARGET_APPS = [
         "bundle_id": "com.mikevillarroel.buildbox"
     },
     {
-        "target_repo": "unbound-app/loader-ios",
+        "target_repo": "marioparaschiv/unbound",
         "bundle_id": "com.hammerandchisel.discord"
     },
     {
@@ -24,28 +25,33 @@ TARGET_APPS = [
 
 JSON_FILE = "apps.json"
 
-def fetch_latest_release(repo):
-    # Thử lấy latest release chính thức
-    url = f"https://api.github.com/repos/{repo}/releases/latest"
+def fetch_latest_ipa_release(repo):
+    # Lấy danh sách 20 release gần nhất (bao gồm cả Pre-release)
+    url = f"https://api.github.com/repos/{repo}/releases?per_page=20"
     headers = {'User-Agent': 'ESign-Update-Bot'}
     token = os.getenv("GITHUB_TOKEN")
     if token:
         headers['Authorization'] = f'Bearer {token}'
 
     req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req) as response:
-            return json.loads(response.read().decode())
-    except urllib.error.HTTPError as e:
-        # Nếu bị 404 (do chỉ có Pre-release hoặc Tag), thử lấy danh sách releases
-        if e.code == 404:
-            fallback_url = f"https://api.github.com/repos/{repo}/releases"
-            req_fallback = urllib.request.Request(fallback_url, headers=headers)
-            with urllib.request.urlopen(req_fallback) as response:
-                releases = json.loads(response.read().decode())
-                if releases:
-                    return releases[0]
-        raise e
+    with urllib.request.urlopen(req) as response:
+        releases = json.loads(response.read().decode())
+
+    # Duyệt từ bản mới nhất xuống, tìm bản đầu tiên có đính kèm file .ipa hoặc .tipa
+    for release in releases:
+        for asset in release.get("assets", []):
+            name = asset.get("name", "").lower()
+            if name.endswith(".ipa") or name.endswith(".tipa"):
+                return release, asset
+
+    return None, None
+
+def clean_version(tag_name):
+    # Xử lý riêng tag dạng 'discord-357.0_124781-ios-testflight' của Unbound -> '357.0'
+    match = re.search(r'discord-(\d+\.\d+(?:\.\d+)?)', tag_name)
+    if match:
+        return match.group(1)
+    return tag_name.lstrip("v")
 
 def main():
     if not os.path.exists(JSON_FILE):
@@ -63,32 +69,22 @@ def main():
 
         print(f"\n--- Đang kiểm tra repo: {repo_name} ---")
         try:
-            release = fetch_latest_release(repo_name)
+            release, ipa_asset = fetch_latest_ipa_release(repo_name)
         except Exception as e:
             print(f"Bỏ qua {repo_name} do lỗi lấy release: {e}")
             continue
 
-        version = release.get("tag_name", "").lstrip("v")
-        pub_date = release.get("published_at", "").split("T")[0]
-
-        ipa_url = ""
-        size = 0
-        assets = release.get("assets", [])
-        
-        # In tên các asset để tiện theo dõi nếu không thấy IPA
-        asset_names = [a.get("name", "") for a in assets]
-        print(f"Các file đính kèm tìm thấy: {asset_names}")
-
-        for asset in assets:
-            name = asset.get("name", "").lower()
-            if name.endswith(".ipa") or name.endswith(".tipa"):
-                ipa_url = asset.get("browser_download_url")
-                size = asset.get("size", 0)
-                break
-
-        if not ipa_url:
-            print(f"Cảnh báo: Bản release của {repo_name} không có file .ipa/.tipa. Bỏ qua.")
+        if not release or not ipa_asset:
+            print(f"Cảnh báo: Không tìm thấy bản release nào có file .ipa/.tipa trong {repo_name}.")
             continue
+
+        raw_tag = release.get("tag_name", "")
+        version = clean_version(raw_tag)
+        pub_date = release.get("published_at", "").split("T")[0]
+        ipa_url = ipa_asset.get("browser_download_url")
+        size = ipa_asset.get("size", 0)
+
+        print(f"Tìm thấy: {ipa_asset.get('name')} | Tag: {raw_tag} -> Version: {version}")
 
         for app in repo_data.get("apps", []):
             if app.get("bundleIdentifier") == bundle_id:
