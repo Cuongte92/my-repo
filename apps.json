@@ -27,18 +27,18 @@
       "bundleIdentifier": "com.christianselig.Apollo",
       "version": "1.15.11_4.1.0",
       "versionDate": "2026-11-14",
-      "size": 119160349,
-      "downloadURL": "https://github.com/Apollo-Reborn/Apollo-Reborn/releases/download/v1.15.11_4.1.0/Apollo-Reborn-4.1.0-GLASS-NOEXTENSIONS.ipa",
+      "size": 97880702,
+      "downloadURL": "https://github.com/Apollo-Reborn/Apollo-Reborn/releases/download/v1.15.11_4.1.0/Apollo-Reborn-4.1.0.ipa",
       "iconURL": "https://raw.githubusercontent.com/Apollo-Reborn/Apollo-Reborn/main/img/settings.jpg",
       "localizedDescription": "Ứng dụng Reddit Apollo tùy biến khôi phục tính năng hoạt động với API cá nhân."
     },
     {
       "name": "Unbound Discord",
       "bundleIdentifier": "com.hammerandchisel.discord",
-      "version": "350.0",
-      "versionDate": "2026-10-19",
-      "size": 99565439,
-      "downloadURL": "https://github.com/unbound-app/loader-ios/releases/download/v350.0/Unbound.ipa",
+      "version": "loader-latest",
+      "versionDate": "2026-11-25",
+      "size": 85569193,
+      "downloadURL": "https://github.com/marioparaschiv/unbound/releases/download/loader-latest/Unbound.ipa",
       "iconURL": "https://cdn.discordapp.com/icons/logos/discord-logo.png",
       "localizedDescription": "Client Discord tích hợp sẵn loader Unbound trên iOS."
     }
