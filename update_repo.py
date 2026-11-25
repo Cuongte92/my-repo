@@ -7,7 +7,8 @@ import re
 TARGET_APPS = [
     {
         "target_repo": "Apollo-Reborn/Apollo-Reborn",
-        "bundle_id": "com.christianselig.Apollo"
+        "bundle_id": "com.christianselig.Apollo",
+        "prefer_exact": r"^apollo-reborn-[\d.]+\.ipa$"
     },
     {
         "target_repo": "mikevillarroel/buildbox-ios",
@@ -25,8 +26,7 @@ TARGET_APPS = [
 
 JSON_FILE = "apps.json"
 
-def fetch_latest_ipa_release(repo):
-    # Lấy danh sách 20 release gần nhất (bao gồm cả Pre-release)
+def fetch_latest_ipa_release(repo, prefer_pattern=None):
     url = f"https://api.github.com/repos/{repo}/releases?per_page=20"
     headers = {'User-Agent': 'ESign-Update-Bot'}
     token = os.getenv("GITHUB_TOKEN")
@@ -37,17 +37,25 @@ def fetch_latest_ipa_release(repo):
     with urllib.request.urlopen(req) as response:
         releases = json.loads(response.read().decode())
 
-    # Duyệt từ bản mới nhất xuống, tìm bản đầu tiên có đính kèm file .ipa hoặc .tipa
     for release in releases:
-        for asset in release.get("assets", []):
-            name = asset.get("name", "").lower()
-            if name.endswith(".ipa") or name.endswith(".tipa"):
-                return release, asset
+        ipa_assets = [
+            a for a in release.get("assets", [])
+            if a.get("name", "").lower().endswith((".ipa", ".tipa"))
+        ]
+        if not ipa_assets:
+            continue
+
+        # Nếu có quy tắc ưu tiên tên file (ví dụ bản Apollo chuẩn đầy đủ extension)
+        if prefer_pattern:
+            for a in ipa_assets:
+                if re.match(prefer_pattern, a.get("name", "").lower()):
+                    return release, a
+
+        return release, ipa_assets[0]
 
     return None, None
 
 def clean_version(tag_name):
-    # Xử lý riêng tag dạng 'discord-357.0_124781-ios-testflight' của Unbound -> '357.0'
     match = re.search(r'discord-(\d+\.\d+(?:\.\d+)?)', tag_name)
     if match:
         return match.group(1)
@@ -66,16 +74,17 @@ def main():
     for target in TARGET_APPS:
         repo_name = target["target_repo"]
         bundle_id = target["bundle_id"]
+        prefer_pattern = target.get("prefer_exact")
 
         print(f"\n--- Đang kiểm tra repo: {repo_name} ---")
         try:
-            release, ipa_asset = fetch_latest_ipa_release(repo_name)
+            release, ipa_asset = fetch_latest_ipa_release(repo_name, prefer_pattern)
         except Exception as e:
             print(f"Bỏ qua {repo_name} do lỗi lấy release: {e}")
             continue
 
         if not release or not ipa_asset:
-            print(f"Cảnh báo: Không tìm thấy bản release nào có file .ipa/.tipa trong {repo_name}.")
+            print(f"Cảnh báo: Không tìm thấy file .ipa/.tipa trong {repo_name}.")
             continue
 
         raw_tag = release.get("tag_name", "")
@@ -84,7 +93,7 @@ def main():
         ipa_url = ipa_asset.get("browser_download_url")
         size = ipa_asset.get("size", 0)
 
-        print(f"Tìm thấy: {ipa_asset.get('name')} | Tag: {raw_tag} -> Version: {version}")
+        print(f"Chọn file: {ipa_asset.get('name')} | Version: {version}")
 
         for app in repo_data.get("apps", []):
             if app.get("bundleIdentifier") == bundle_id:
